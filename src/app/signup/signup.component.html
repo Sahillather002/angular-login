@@ -1,82 +1,240 @@
-<div class="flex items-center justify-center min-h-screen customBackground">
-    <div class="flex flex-row h-[500px] w-[800px] rounded-lg bg-purple-400">
-      <div
-        class="flex flex-col justify-between bg-[#dbe9f6] w-2/5 p-4 rounded-l-lg"
-      >
-        <img [src]="solve8Logo" alt="solve 8 icon" class="h-[40px] w-[80px]" />
-        <img [src]="womenLogo" alt="solve 8 icon" class="h-[400px] w-full" />
-      </div>
-      <div
-        class="flex flex-col items-center justify-center bg-white w-3/5 rounded-r-lg"
-      >
-        <!-- Display success message if loginSuccess is true -->
-        <div *ngIf="loginSuccess; else loginForm">
+<div
+  *ngIf="step === 1"
+  class="flex items-center justify-center min-h-screen customBackground"
+>
+  <div class="flex flex-row h-[550px] w-[800px] rounded-lg bg-purple-400">
+    <div
+      class="flex flex-col justify-between bg-[#dbe9f6] w-2/5 p-4 rounded-l-lg"
+    >
+      <img [src]="solve8Logo" alt="solve 8 icon" class="h-[40px] w-[80px]" />
+      <img [src]="womenLogo" alt="solve 8 icon" class="h-[400px] w-full" />
+    </div>
+    <div
+      class="flex flex-col items-center justify-center bg-white w-3/5 rounded-r-lg relative"
+    >
+      <!-- Form Content -->
+      <div class="w-full pl-12 pr-24 pt-8">
+        <h2 class="text-[#2D2D36] font-semibold mb-4">Create Your Account</h2>
+        <!-- Progress Bar -->
+        <div class="flex justify-between mt-2 mb-4">
           <div
-            class="flex flex-col items-center justify-center text-center w-full"
-          >
-            <img
-              [src]="greenTick"
-              alt="green tick"
-              class="mb-4 h-[200px] w-[200px]"
-            />
-            <h2 class="font-semibold text-xl">Logging you in....</h2>
-            <span class="font-normal text-gray-400"
-              >Kindly wait as we are curating the data accordingly.</span
-            >
-          </div>
+            class="h-2 rounded-2xl flex-1 mx-1"
+            [ngClass]="step === 1 ? 'bg-blue-500' : 'bg-gray-200'"
+          ></div>
+          <div
+            class="h-2 rounded-2xl flex-1 mx-1"
+            [ngClass]="step >= 2 ? 'bg-blue-500' : 'bg-gray-200'"
+          ></div>
         </div>
-        <ng-template #loginForm>
-          <div class="w-full pl-12 pr-24">
-            <!-- The login form -->
-  
-            <h2 class="text-[#2D2D36] font-semibold mb-4">
-              Welcome Back, <span class="capitalize">{{username}}!</span>
-            </h2>
-            <form (ngSubmit)="onLogin()" class="space-y-4">
+        <form (ngSubmit)="onContinue()" class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium primaryBlue"
+              >Enter Name</label
+            >
+            <input
+              id="name"
+              [(ngModel)]="name"
+              name="name"
+              required
+              placeholder="Your Name"
+              class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
+            />
+          </div>
+          <div>
+            <label
+              for="emailOrPhone"
+              class="block text-sm font-medium primaryBlue"
+              >Enter Email ID / Phone Number</label
+            >
+            <input
+              id="emailOrPhone"
+              [(ngModel)]="emailOrPhone"
+              name="emailOrPhone"
+              required
+              placeholder="Loremipsum@gmail.com"
+              class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
+            />
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium primaryBlue"
+              >Create Password</label
+            >
+            <input
+              id="password"
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+              required
+              placeholder="Password"
+              class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white py-2 px-4 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+          >
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="step === 2"
+  class="flex items-center justify-center min-h-screen customBackground"
+>
+  <div class="flex flex-row h-[550px] w-[800px] rounded-lg bg-purple-400">
+    <div
+      class="flex flex-col justify-between bg-[#dbe9f6] w-2/5 p-4 rounded-l-lg"
+    >
+      <img [src]="solve8Logo" alt="solve 8 icon" class="h-[40px] w-[80px]" />
+      <img [src]="womenLogo" alt="solve 8 icon" class="h-[400px] w-full" />
+    </div>
+    <div
+      class="flex flex-col items-center justify-center bg-white w-3/5 rounded-r-lg relative"
+    >
+      <!-- Display success message if loginSuccess is true -->
+      <div *ngIf="signupComplete; else loginForm">
+        <div
+          class="flex flex-col items-center justify-center text-center w-full"
+        >
+          <img
+            [src]="greenTick"
+            alt="green tick"
+            class="mb-4 h-[200px] w-[200px]"
+          />
+          <h2 class="font-semibold text-xl">Welcome to Solvei8!</h2>
+          <span class="font-normal text-gray-400"
+            >Redirecting you to the Login screen. This might take a few
+            seconds...</span
+          >
+        </div>
+      </div>
+      <ng-template #loginForm>
+        <!-- Form Content -->
+        <div class="w-full pl-12 pr-24 pt-2">
+          <div
+            type="button"
+            (click)="onBack()"
+            class="w-1/3 flex flex-row gap-x-2 mb-2 cursor-pointer"
+          >
+            <img [src]="leftIcon" alt="back" class="w-[20px] h-[20px]" />
+            <p class="primaryBlue font-semibold">Go Back</p>
+          </div>
+          <h2 class="text-[#2D2D36] font-semibold mb-4">
+            Complete Your Profile
+          </h2>
+          <!-- Progress Bar -->
+          <div class="flex justify-between mt-2 mb-4">
+            <div
+              class="h-2 rounded-2xl flex-1 mx-1"
+              [ngClass]="step >= 1 ? 'bg-blue-500' : 'bg-gray-200'"
+            ></div>
+            <div
+              class="h-2 rounded-2xl flex-1 mx-1"
+              [ngClass]="step >= 2 ? 'bg-blue-500' : 'bg-gray-200'"
+            ></div>
+          </div>
+          <form (ngSubmit)="onSignup()" class="space-y-4">
+            <div>
+              <label
+                for="organization"
+                class="block text-sm font-medium primaryBlue"
+                >Organization Name</label
+              >
+              <input
+                id="organization"
+                [(ngModel)]="organization"
+                name="organization"
+                required
+                placeholder="Organization Name"
+                class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
+              />
+              <div *ngIf="organizationError" class="text-red-500 mt-2">
+                Unknown organization-id
+              </div>
+            </div>
+            <div>
+              <label
+                for="designation"
+                class="block text-sm font-medium primaryBlue"
+                >Designation</label
+              >
+              <select
+                id="designation"
+                [(ngModel)]="designation"
+                name="designation"
+                required
+                class="mt-1 block w-full px-3 py-2 gap-y-1 rounded-2xl font-normal textBoxBackground"
+              >
+                <option
+                  *ngFor="let designation of designations"
+                  [value]="designation"
+                >
+                  {{ designation }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="birthDate"
+                class="block text-sm font-medium primaryBlue"
+                >Birth Date</label
+              >
+              <input
+                id="birthDate"
+                type="date"
+                [(ngModel)]="birthDate"
+                name="birthDate"
+                required
+                class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
+              />
+            </div>
+            <div class="flex flex-row items-center justify-between gap-x-2">
               <div>
-                <label
-                  for="emailOrPhone"
-                  class="block text-sm font-medium primaryBlue"
-                  >Enter Email ID</label
+                <label for="city" class="block text-sm font-medium primaryBlue"
+                  >City</label
                 >
                 <input
-                  id="emailOrPhone"
-                  [(ngModel)]="emailOrPhone"
-                  name="emailOrPhone"
+                  id="city"
+                  [(ngModel)]="city"
+                  name="city"
                   required
-                  placeholder="Loremipsum@gmail.com"
+                  placeholder="City"
                   class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
                 />
               </div>
               <div>
                 <label
-                  for="password"
+                  for="pincode"
                   class="block text-sm font-medium primaryBlue"
-                  >Enter Password</label
+                  >Pincode</label
                 >
                 <input
-                  id="password"
-                  type="password"
-                  [(ngModel)]="password"
-                  name="password"
+                  id="pincode"
+                  type="text"
+                  [(ngModel)]="pincode"
+                  name="pincode"
                   required
-                  placeholder="Password"
+                  pattern="[0-9]{6}"
+                  placeholder="Pincode"
                   class="mt-1 block w-full px-3 py-2 rounded-2xl font-normal textBoxBackground"
                 />
               </div>
-              <div *ngIf="errorMessage" class="text-red-500 mt-2">
-                {{ errorMessage }}
-              </div>
+            </div>
+            <div class="flex justify-between">
               <button
                 type="submit"
                 class="w-full bg-blue-500 text-white py-2 px-4 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
               >
-                Next
+                Signup
               </button>
-            </form>
-          </div>
-        </ng-template>
-      </div>
+            </div>
+          </form>
+        </div>
+      </ng-template>
     </div>
   </div>
-  
+</div>

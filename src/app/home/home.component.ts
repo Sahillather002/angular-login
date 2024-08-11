@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, FormsModule, CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
   title = 'buyogo';
@@ -25,19 +25,22 @@ export class HomeComponent {
   onCheckUser() {
     const emailOrPhone = this.email || this.phone;
     const username = this.email ? this.email.split('@')[0] : this.phone;
-    this.authService.checkUserExists(emailOrPhone).subscribe(userExists => {
-      if (userExists) {
-        this.router.navigate(['/login'],{
-          queryParams:{
-            username: username
-          }
-        });
-      } else {
-        console.log(userExists)
-        this.router.navigate(['/signup']);
+    this.authService.checkUserExists(emailOrPhone).subscribe(
+      (userExists) => {
+        if (userExists) {
+          this.router.navigate(['/login'], {
+            queryParams: {
+              username: username,
+            },
+          });
+        } else {
+          console.log(userExists);
+          this.router.navigate(['/signup']);
+        }
+      },
+      (error) => {
+        this.errorMessage = 'An error occurred. Please try again.';
       }
-    }, error => {
-      this.errorMessage = 'An error occurred. Please try again.';
-    });
+    );
   }
 }
